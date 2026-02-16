@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olivia Vande Woude - RWA Tokenization & Institutional DeFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --serif: 'Crimson Pro', serif;
+            --sans: 'DM Sans', sans-serif;
+            --charcoal: #1a1a1a;
+            --slate: #4a5568;
+            --light-slate: #718096;
+            --cream: #fafaf8;
+            --white: #ffffff;
+            --accent: #2c5282;
+            --accent-light: #3d6ca3;
+            --border: #e2e8f0;
+            --border-subtle: #f1f5f9;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 2rem;
+            background: linear-gradient(to bottom, #fafaf8 0%, #ffffff 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(44, 82, 130, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .eyebrow {
+            font-size: 0.875rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--slate);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        h1 {
+            font-family: var(--serif);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1.15;
+            margin-bottom: 2rem;
+            color: var(--charcoal);
+            animation: fadeInUp 1s ease-out 0.3s both;
+            letter-spacing: -0.02em;
+        }
+
+        h1 strong {
+            font-weight: 600;
+            display: block;
+            color: var(--accent);
+        }
+
+        .intro {
+            font-size: 1.125rem;
+            line-height: 1.75;
+            color: var(--slate);
+            max-width: 650px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border: none;
+            font-family: var(--sans);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(44, 82, 130, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--charcoal);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.25rem 2rem;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 100;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--slate);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .section-tag {
+            font-size: 0.8125rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-intro {
+            font-size: 1.0625rem;
+            color: var(--light-slate);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.75;
+        }
+
+        /* Insights Grid */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .insight-card {
+            background: white;
+            border: 1px solid var(--border-subtle);
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: var(--accent);
+            transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .insight-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+            border-color: var(--border);
+        }
+
+        .insight-card:hover::before {
+            height: 100%;
+        }
+
+        .insight-meta {
+            font-size: 0.8125rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .insight-card h3 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+            line-height: 1.35;
+            letter-spacing: -0.01em;
+        }
+
+        .insight-card p {
+            color: var(--light-slate);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .read-more {
+            color: var(--accent);
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 1rem;
+        }
+
+        /* About Section */
+        .about-section {
+            background: var(--white);
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-bio {
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            color: var(--slate);
+        }
+
+        .about-bio p {
+            margin-bottom: 1.5rem;
+        }
+
+        .expertise-list {
+            list-style: none;
+        }
+
+        .expertise-list li {
+            padding: 1.125rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 1.0625rem;
+            color: var(--charcoal);
+            position: relative;
+            padding-left: 1.75rem;
+        }
+
+        .expertise-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .expertise-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--charcoal);
+            color: var(--cream);
+            text-align: center;
+        }
+
+        .contact-section .section-tag {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-section h2 {
+            color: var(--white);
+        }
+
+        .contact-section .section-intro {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: var(--white);
+            text-decoration: none;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+        }
+
+        .contact-label {
+            font-weight: 500;
+            font-size: 1.0625rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--light-slate);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border-subtle);
+            background: var(--white);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav .nav-links {
+                display: none;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Scroll reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">Olivia Vande Woude</a>
+            <ul class="nav-links">
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="#media">Media</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="eyebrow">Tokenization Strategy • Institutional DeFi</div>
+            <h1>
+                Bridging traditional finance and <strong>blockchain infrastructure</strong>
+            </h1>
+            <p class="intro">
+                Leading real-world asset tokenization strategy at Ava Labs, working with BlackRock, Franklin Templeton, and global institutions to build the financial infrastructure of tomorrow.
+            </p>
+            <div class="cta-group">
+                <a href="#insights" class="btn btn-primary">Read Insights</a>
+                <a href="https://www.linkedin.com/in/olivia-vande-woude/" target="_blank" class="btn btn-secondary">Connect on LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="insights" class="content-section">
+        <div class="section-header reveal">
+            <div class="section-tag">Latest Thinking</div>
+            <h2>RWA Tokenization Insights</h2>
+            <p class="section-intro">
+                Recent perspectives on infrastructure modernization, institutional partnerships, and the convergence of traditional finance and blockchain technology.
+            </p>
+        </div>
+
+        <div class="insights-grid">
+            <article class="insight-card reveal">
+                <div class="insight-meta">Infrastructure Modernization</div>
+                <h3>Avalanche Does for Finance What Fiber Optics Did for Telecom</h3>
+                <p>
+                    Replacing outdated rails with real-time, high-throughput, low-latency execution. With sub-second finality, low fees, and EVM compatibility, Avalanche modernizes legacy RTGS systems like SWIFT, Fedwire, CHIPS, and CLS—rewriting financial infrastructure from the ground up.
+                </p>
+                <a href="https://x.com/cryptoreine/status/1778452000000000000" target="_blank" class="read-more">Read thread →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Institutional Partnerships</div>
+                <h3>SMBC Building Stablecoin Infrastructure on Avalanche</h3>
+                <p>
+                    Japan's second-largest bank is building stablecoin infrastructure on Avalanche in collaboration with Ava Labs, Fireblocks, and TIS—marking a significant convergence of traditional banking and digital assets in Asia's largest economy.
+                </p>
+                <a href="https://www.linkedin.com/in/olivia-vande-woude/" target="_blank" class="read-more">Read more →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Asset Tokenization</div>
+                <h3>WisdomTree's 13 Tokenized Funds on Avalanche</h3>
+                <p>
+                    WisdomTree Connect™ offers money market funds, equity index funds, and fixed income funds on Avalanche—demonstrating how traditional asset managers are bringing institutional-grade products on-chain with regulatory clarity.
+                </p>
+                <a href="https://www.linkedin.com/in/olivia-vande-woude/" target="_blank" class="read-more">Read more →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Policy & Regulation</div>
+                <h3>Stablecoin Strategy for Nation States</h3>
+                <p>
+                    A practical framework for how countries should approach the coming wave of stablecoins—balancing regulatory oversight with innovation to position local markets for digital currency adoption while protecting monetary sovereignty.
+                </p>
+                <a href="https://www.linkedin.com/in/olivia-vande-woude/" target="_blank" class="read-more">Read more →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Institutional Recognition</div>
+                <h3>Standard Chartered Initiates Avalanche Coverage</h3>
+                <p>
+                    Encouraged to see Avalanche recognized for its growing traction in tokenization, highlighted by Standard Chartered's recent initiation—spotlighting Avalanche's scalability breakthrough with the Etna upgrade.
+                </p>
+                <a href="https://www.linkedin.com/in/olivia-vande-woude/" target="_blank" class="read-more">Read more →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Cross-Border Payments</div>
+                <h3>Nonco's FX On-Chain Launch on Avalanche</h3>
+                <p>
+                    Leading institutional digital asset trading firm Nonco has launched its FX On-Chain initiative on Avalanche, bridging traditional foreign exchange markets with blockchain infrastructure to enable real-time, low-cost cross-border settlement.
+                </p>
+                <a href="https://www.linkedin.com/in/olivia-vande-woude/" target="_blank" class="read-more">Read more →</a>
+            </article>
+        </div>
+    </section>
+
+    <section id="about" class="content-section about-section">
+        <div class="section-header reveal">
+            <div class="section-tag">Background</div>
+            <h2>About</h2>
+        </div>
+
+        <div class="about-content">
+            <div class="about-bio reveal">
+                <p>
+                    I lead Tokenization Strategy at Ava Labs, where I focus on both supply-side asset issuance partnerships with major institutions and demand-side distribution through fintech partnerships across LATAM and APAC.
+                </p>
+                <p>
+                    Before Avalanche, I was an associate analyst at T. Rowe Price covering small and mid-cap banks. I joined their digital assets working group and eventually transitioned to building institutional tokenization infrastructure full-time.
+                </p>
+                <p>
+                    My work bridges traditional finance and blockchain technology—understanding institutional requirements, regulatory frameworks, and market structure well enough to build infrastructure that institutions will actually use.
+                </p>
+            </div>
+
+            <div class="reveal">
+                <h3 style="font-family: var(--serif); font-size: 1.75rem; margin-bottom: 2rem; color: var(--charcoal);">Core Focus Areas</h3>
+                <ul class="expertise-list">
+                    <li>Institutional RWA tokenization partnerships</li>
+                    <li>Stablecoin distribution & fintech integration</li>
+                    <li>DeFi infrastructure for traditional finance</li>
+                    <li>Regulatory policy & institutional frameworks</li>
+                    <li>Credit fund looping & vault deployment</li>
+                    <li>Cross-border payment infrastructure</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="media" class="content-section">
+        <div class="section-header reveal">
+            <div class="section-tag">Media & Speaking</div>
+            <h2>Podcast & Panel Appearances</h2>
+            <p class="section-intro">
+                Discussions on tokenization, institutional adoption, and the future of capital markets.
+            </p>
+        </div>
+
+        <div class="insights-grid">
+            <article class="insight-card reveal">
+                <div class="insight-meta">Podcast</div>
+                <h3>Rollup: How to Fix Tokenized Securities</h3>
+                <p>
+                    Deep dive discussion on tokenized securities with Ava Labs, exploring the challenges and solutions for bringing traditional securities on-chain with regulatory compliance.
+                </p>
+                <a href="https://www.youtube.com/watch?v=DlfmqR97PmM" target="_blank" class="read-more">Watch episode →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Panel Discussion</div>
+                <h3>Digital Asset Forum</h3>
+                <p>
+                    Panel appearance at the Digital Asset Forum discussing institutional tokenization strategies, regulatory frameworks, and the evolution of digital asset infrastructure.
+                </p>
+                <a href="https://www.youtube.com/watch?v=0CLK_Czm7Ac" target="_blank" class="read-more">Watch panel →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Webinar</div>
+                <h3>How Tokenization is Reshaping Capital Markets</h3>
+                <p>
+                    Panel discussion on how asset tokenization is transforming traditional capital markets infrastructure, exploring real-world use cases and institutional adoption pathways.
+                </p>
+                <a href="https://www.youtube.com/watch?v=oH_I6NZCRw8" target="_blank" class="read-more">Watch webinar →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Conference</div>
+                <h3>Avalanche at the New York Stock Exchange</h3>
+                <p>
+                    Representing Ava Labs at the NYSE, discussing Avalanche's role in institutional tokenization and the convergence of traditional finance with blockchain infrastructure.
+                </p>
+                <a href="https://x.com/cryptoreine/status/2015107986503688628" target="_blank" class="read-more">View post →</a>
+            </article>
+
+            <article class="insight-card reveal">
+                <div class="insight-meta">Policy Discussion</div>
+                <h3>SEC & FDIC Engagement</h3>
+                <p>
+                    Ongoing regulatory engagement on behalf of Ava Labs, discussing L1 innovation, tokenization frameworks, and the future of digital asset regulation with key financial regulators.
+                </p>
+                <a href="https://www.linkedin.com/in/olivia-vande-woude/" target="_blank" class="read-more">Learn more →</a>
+            </article>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section contact-section">
+        <div class="section-header reveal">
+            <div class="section-tag">Get in Touch</div>
+            <h2>Let's Talk Tokenization</h2>
+            <p class="section-intro">
+                Whether you're an institutional fund exploring tokenized assets, a fintech platform considering blockchain infrastructure, or interested in speaking opportunities—I'd love to connect.
+            </p>
+        </div>
+
+        <div class="contact-links reveal">
+            <a href="https://www.linkedin.com/in/olivia-vande-woude/" target="_blank" class="contact-link">
+                <div class="contact-icon">in</div>
+                <div class="contact-label">LinkedIn</div>
+            </a>
+            <a href="/cdn-cgi/l/email-protection#9ce5f3e9eeb2f9f1fdf5f0dcf9e4fdf1ecf0f9b2fff3f1" class="contact-link">
+                <div class="contact-icon">✉</div>
+                <div class="contact-label">Email</div>
+            </a>
+            <a href="#" class="contact-link">
+                <div class="contact-icon">🎙</div>
+                <div class="contact-label">Speaking</div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Olivia Vande Woude. All rights reserved.</p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behav
